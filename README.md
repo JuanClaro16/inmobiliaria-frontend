@@ -10,7 +10,7 @@
 
 ### Setup
 ```bash
-cp .env.example .env
+cp  .env
 # edita VITE_API_BASE con la URL del backend (dev)
 npm install
 npm run dev
