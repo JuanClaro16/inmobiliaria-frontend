@@ -65,7 +65,6 @@ export async function createProperty(fd: FormData) {
         method: 'POST',
         credentials: 'include',
         headers: {
-            // NUNCA pongas 'Content-Type' con FormData; el navegador agrega el boundary.
             Accept: 'application/json',
         },
         body: fd,
@@ -77,7 +76,6 @@ export async function createProperty(fd: FormData) {
         try {
             if (ct.includes('application/json')) {
                 const data = await res.json();
-                // Laravel suele mandar { message, errors }
                 const msg =
                     data?.message ??
                     (data?.errors ? JSON.stringify(data.errors) : 'Error creando el inmueble');
@@ -87,7 +85,6 @@ export async function createProperty(fd: FormData) {
                 throw new Error(`Error ${res.status} ${res.statusText} - ${stripHtml(text)}`);
             }
         } catch {
-            // por si el json falla a mitad
             const textFallback = await res.text().catch(() => '');
             throw new Error(`Error ${res.status} ${res.statusText} - ${stripHtml(textFallback)}`);
         }
@@ -97,7 +94,6 @@ export async function createProperty(fd: FormData) {
     if (ct.includes('application/json')) {
         return await res.json();
     } else {
-        // por si el backend devuelve texto
         const txt = await res.text();
         try {
             return JSON.parse(txt);
@@ -112,7 +108,7 @@ export async function updateProperty(id: number, fd: FormData): Promise<Property
         method: 'POST', // para que FormData viaje bien
         headers: { 'X-HTTP-Method-Override': 'PUT' },
         body: fd,
-        credentials: 'include', // si tu backend usa cookies/csrf; si no, quítalo
+        credentials: 'include', 
     });
 
     if (!res.ok) {
