@@ -33,7 +33,6 @@ export default function CreatePropertyForm({ initial, onSuccess, onCancel }: Pro
   const isEdit = !!initial?.id;
 
   useEffect(() => {
-    // por si cambias la prop initial sobre la marcha
     if (initial) {
       setCity(initial.city);
       setMode(initial.consignation_type);
@@ -61,7 +60,6 @@ export default function CreatePropertyForm({ initial, onSuccess, onCancel }: Pro
 
     // Imagen principal (opcional)
     if (fileRef.current?.files && fileRef.current.files.length > 0) {
-      // el backend espera un array 'images[]' o un 'images' simple, ajusta según tu controlador
       fd.append('images[]', fileRef.current.files[0]);
       fd.append('images_alt[]', `Imagen inmueble ${city}`);
     }
